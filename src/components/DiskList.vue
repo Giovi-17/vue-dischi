@@ -1,16 +1,27 @@
 <template>
     
+  <div class="containerTotal">
+
+    <div class="choiceM">
+
+      <TypeOfMusic @choiceMusic="choiceTypeOfMusic" />
+
+    </div>
+
     <div class="diskContainer">
 
-        <Disk v-for="(diskC, index) in diskAr" :key="index" :details="diskC" />
+      <Disk v-for="(diskC, index) in filterMusic()" :key="index" :details="diskC" />
         
     </div>
+
+  </div>
 
 </template>
 
 <script>
 import axios from 'axios';
 import Disk from "./Disk.vue";
+import TypeOfMusic from "./TypeOfMusic.vue";
 
 export default {
   name: "DiskList",
@@ -19,12 +30,47 @@ export default {
     return {
 
       diskAr: [],
+      choiseMusicType: ""
 
     };
 
   },
   components: {
     Disk,
+    TypeOfMusic,
+  },
+  methods: {
+
+    choiceTypeOfMusic: function(tOM){
+
+      this.choiseMusicType = tOM;
+
+    },
+
+    filterMusic: function(){
+
+      if(this.choiseMusicType === ""){
+
+        return this.diskAr;
+
+      }
+      else{
+
+        const filteredArray = this.diskAr.filter((element) => {
+
+          console.log(element);
+
+          return element.genre.toLowerCase().includes(this.choiseMusicType.toLowerCase());
+
+        });
+
+        return filteredArray;
+
+      }
+      
+
+    }
+
   },
   created: function(){
 
@@ -41,7 +87,22 @@ export default {
 
 <style lang="scss" scoped>
 
-    .diskContainer{
+    .containerTotal{
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      margin: auto;
+
+      .choiceM{
+
+        margin-top: 20px;
+
+      }
+
+      .diskContainer{
 
         display: flex;
         justify-content: center;
@@ -50,6 +111,8 @@ export default {
         width: 70%;
         height: 100%;
         margin: auto;
+
+      }
 
     }
 
