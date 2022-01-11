@@ -10,7 +10,7 @@
 
     <div class="diskContainer">
 
-      <Disk v-for="(diskC, index) in filterMusic()" :key="index" :details="diskC" />
+      <Disk v-for="(diskC, index) in filterMusic" :key="index" :details="diskC" />
         
     </div>
 
@@ -47,9 +47,12 @@ export default {
 
     },
 
+  },
+  computed: {
+
     filterMusic: function(){
 
-      if(this.choiseMusicType === ""){
+      if(this.choiseMusicType.length === 0){
 
         return this.diskAr;
 
@@ -57,8 +60,6 @@ export default {
       else{
 
         const filteredArray = this.diskAr.filter((element) => {
-
-          console.log(element);
 
           return element.genre.toLowerCase().includes(this.choiseMusicType.toLowerCase());
 
@@ -68,7 +69,6 @@ export default {
 
       }
       
-
     }
 
   },
